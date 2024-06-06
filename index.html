@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_blank">
+
+  </head>
+
+  <body>
+    <main>
+      <div class="reader-block container">
+        <div id="top_bar" class="top_bar square box0" >
+          <div><a id="school">学校名</a></div>
+          <!-- <div class="loader"></div> -->
+          <div><button id="audio" >音を鳴らす</button></div>
+          <div><button id="reload" onclick="reload_now();">再読み込み</button></div>
+        </div>
+        <div id="clock" class="clock square box1" ></div>
+        <div id="info" class="reader square box2" >"情報が表示されます"</div>
+        <div id="reader" class="reader square box3" ></div>
+        <div id="result" class="result square box4" ></div>
+      </div>
+    </main>
+
+    <!-- 退勤確認画面（通常非表示） -->
+    <div id="modal_window" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class='close'>X</span>
+          <h2>もしかして退勤ですか？</h2>
+        </div>
+        <div class="modal-body">
+          <p>本日最初の読み込みです。</p>
+          <p>自動で退勤扱いになります。<br>出勤の時は「出勤」ボタンを押してください。</p>
+          <button id="leave_work" class="leave_work">退勤です</button>
+          <button id="at_work" class="at_work">出勤です</button>
+        </div>
+        <div id="modal-footer" class="modal-footer">
+          <h3>5秒後に自動で退勤扱いで閉じます。</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- デバック確認画面（通常非表示） -->
+    <div id="debug_window" class="debug">
+      <div class="debug-content">
+        <div class="debug-header">
+          <span class='close'>X</span>
+          <h2>デバックウィンドウ（管理者用）</h2>
+        </div>
+        <div class="debug-body">
+          <div><p>以下の内容を記録します。</p>
+            <button id="debug_record" onclick="debug_copy();">debugコピー</button>
+          </div>
+          <div><a id="debug_text">debug内容</a></div>
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    
+  </body>
+
+    <?!= HtmlService.createHtmlOutputFromFile('index_java').getContent(); ?>
+    <?!= HtmlService.createHtmlOutputFromFile('index_css').getContent(); ?>
+</html>
