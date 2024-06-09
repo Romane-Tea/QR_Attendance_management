@@ -31,7 +31,7 @@ async function start_html() {
   record_sheet_first =meibo_data[8][9];// 記録シートの初日
   record_day_first = new Date(record_sheet_first.split('/')[0],record_sheet_first.split('/')[1]-1,record_sheet_first.split('/')[2]); //日付データに変換
   // 名簿からアドレス一覧を取得、行列化
-  for (var i = 1; i<meibo_data.length ; i++){
+  for (let i = 1; i<meibo_data.length ; i++){
     if (meibo_data[i][1] ==""){}else{
       let meibo = ["",""];
       meibo[0] = meibo_data[i][1];
@@ -41,9 +41,9 @@ async function start_html() {
   }
 
   //表示テキストを設定する
-  var school_name_text = document.getElementById('school');
+  let school_name_text = document.getElementById('school');
   school_name_text.innerText = nendo +"年度 "+school_name + "　在校時間管理システム (" +on_date+on_time+"起動)";
-  var info_text = document.getElementById('info');
+  let info_text = document.getElementById('info');
   info_text.innerText = info;
 
   // school_name_text.classList.remove('loader');
@@ -110,8 +110,8 @@ const onScan_OK = async function(decodedText){
     let shouldPauseVideo = true;
     html5QrcodeScanner.pause(shouldPauseVideo);   //ビデオを一時停止します
 
-    var now_qr_time = new Date();       //QR読み込み時の日時を作成
-    var temp_time = new Date(JSON.parse(JSON.stringify(now_qr_time)));  //now_qr_timeをディープコピーする
+    let now_qr_time = new Date();       //QR読み込み時の日時を作成
+    let temp_time = new Date(JSON.parse(JSON.stringify(now_qr_time)));  //now_qr_timeをディープコピーする
     if (now_qr_time.getHours()<Number(at_work[0])){
       temp_time.setDate(temp_time.getDate()-1);   //もし0時から出勤開始時間前なら、前日を設定する
     }
@@ -119,11 +119,11 @@ const onScan_OK = async function(decodedText){
     let at_work_today = new Date(temp_time.setHours(Number(at_work[0]),Number(at_work[1]),0,0));        //出勤扱い開始時間を設定
     let leav_work_today = new Date(temp_time.setHours(Number(leav_work[0]),Number(leav_work[1]),0,0));  //退勤扱い開始時間を設定
     console.log("出退勤時間",at_work_today,leav_work_today);
-    var address_now = address_data.map((e, index) => [e, index]).filter(([e, index]) => e[1] == decodedText);  //アドレス一覧から該当するデータを抽出  [0]:名前 [1]:アドレス
-    var qr_result = [];
+    let address_now = address_data.map((e, index) => [e, index]).filter(([e, index]) => e[1] == decodedText);  //アドレス一覧から該当するデータを抽出  [0]:名前 [1]:アドレス
+    let qr_result = [];
   
     // scanQRDataシートから、勤務開始時間後の日付のデータを抽出する
-    for (var index=0; index<scanQRData_data.length; index++){
+    for (let index=0; index<scanQRData_data.length; index++){
       let index_date = new Date(scanQRData_data[index][0]); //QRシートの読み込み日時データ
       if(index_date.getTime() >= at_work_today.getTime() && scanQRData_data[index][1] == decodedText){
         qr_result.push([scanQRData_data[index],index]);
@@ -224,7 +224,7 @@ const onScan_OK = async function(decodedText){
       console.log("length=1");
       let qr_time = new Date(qr_result[0][0][0]); //出勤時刻を取得
       let state = qr_result[0][0][2]; //出退勤の状態を取得
-      
+
       if (state =="出勤"){
         //5分以内なら
         if (now_qr_time.getTime() - qr_time.getTime() < read_after_time*60*1000){
@@ -249,7 +249,7 @@ const onScan_OK = async function(decodedText){
         await sleep(wait_time * 1000);
         append("QRコードを読み込めます");
       }
-    
+
     //退勤まで入力されているとき 退勤時間の上書き
     } else if (qr_result.length ==2) {
       //退勤上書き処理
@@ -330,7 +330,7 @@ const taikin_update = async function(decodedText,qr_result,now_name,now_qr_time,
   append(qr_text);
   debug_append(on_time_s+" 退勤上書き処理開始 "+now_name+decodedText);
   console.log("退勤上書き処理");
-  var qr_index = qr_result[1];   //行番号を取得（最初が0)
+  let qr_index = qr_result[1];   //行番号を取得（最初が0)
   let add_data = [now_qr_time,(String(address_now)).split(',')[1]];
   //読取り成功時にスプレッドシートにデータを書き込む
   const writeToSpreadsheet  = () => {
@@ -356,10 +356,10 @@ const taikin_update = async function(decodedText,qr_result,now_name,now_qr_time,
   await writeToSpreadsheet();
 }
 
-var modal = document.getElementById('modal_window');
-var debug = document.getElementById('debug_window');
-var close = modal.getElementsByClassName('close')[0];
-var close_debug = debug.getElementsByClassName('close')[0];
+let modal = document.getElementById('modal_window');
+let debug = document.getElementById('debug_window');
+let close = modal.getElementsByClassName('close')[0];
+let close_debug = debug.getElementsByClassName('close')[0];
 
 // 読み込み時モーダルウィンドウを表示する
 function modal_open() {

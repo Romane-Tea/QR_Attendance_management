@@ -335,7 +335,7 @@ function send_mail_check_day(name, mail_address, sheetId, no_input_day){
 // 祝日一覧取得関数　https://qiita.com/ik-fib/items/6c35640954c2b04a9287
 // マイカレンダー（ https://calendar.google.com/ ）に「日本の祝日」カレンダーが登録されていないとエラーになります。
 function holiday_get() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet(); 
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
   const nyuryoku_sheet = ss.getSheetByName('入力');
   // 今年の1/1から
   var startDate = new Date();
@@ -345,12 +345,12 @@ function holiday_get() {
   // 来年の12/31まで
   var endDate = new Date();
   endDate.setFullYear(endDate.getFullYear() + 1, 11, 31);
-  endDate.setHours(0, 0, 0, 0);  
+  endDate.setHours(0, 0, 0, 0);
 
-  var holidays = getHoliday(startDate, endDate);
+  let holidays = getHoliday(startDate, endDate);
 
-  var lastRow = nyuryoku_sheet.getLastRow();
-  var startRow = 5;
+  let lastRow = nyuryoku_sheet.getLastRow();
+  let startRow = 5;
 
   nyuryoku_sheet.getRange(startRow, 1, holidays.length, holidays[0].length).setValues(holidays);
 }
@@ -360,13 +360,13 @@ function holiday_get() {
  * [日付,祝日名]の多次元配列にした上で返す
  */
 function getHoliday(startDate, endDate) {
-  var cal = CalendarApp.getCalendarById("ja.japanese#holiday@group.v.calendar.google.com");
+  let cal = CalendarApp.getCalendarById("ja.japanese#holiday@group.v.calendar.google.com");
 
-  var holidays = cal.getEvents(startDate, endDate);
+  let holidays = cal.getEvents(startDate, endDate);
   console.log(startDate, endDate);
-  var values = [];
+  let values = [];
 
-  for(var i = 0; i < holidays.length; i++) {
+  for(let i = 0; i < holidays.length; i++) {
     values[i] = [holidays[i].getStartTime(), holidays[i].getTitle()];
   }
   return values;
@@ -374,12 +374,12 @@ function getHoliday(startDate, endDate) {
 
 // QRコードシートに、一括で氏名、アドレスを貼り付け
 function make_QR_sheet_paste() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
   const meibo_sheet = ss.getSheetByName('名簿');
   const last_row = meibo_sheet.getLastRow();     //名簿シートの最終行取得
   const meibo = meibo_sheet.getRange(1, 1, last_row, 3).getValues(); //名簿一覧を取得
   const qr_sheet = ss.getSheetByName('QRコード');
-  for ( var i=0; i<Math.ceil(meibo.length/8); i++){
+  for ( let i=0; i<Math.ceil(meibo.length/8); i++){
     if (meibo[i*8][2] ==""){}else{
       const s_range = meibo_sheet.getRange(i*8+2,2,8,2);
       s_range.copyTo(qr_sheet.getRange(i*4+2,1,2,8),SpreadsheetApp.CopyPasteType.PASTE_NORMAL, true);

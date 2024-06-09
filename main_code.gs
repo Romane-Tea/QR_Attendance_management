@@ -14,8 +14,8 @@ function getScriptUrl() {
 ////////////// スキャン成功時に記録する関数 /////////////////
 function onScan(decodedText,text2, write_row,index) {
   // decodedText = 'tatsuya-gqi5232jm3@gs.myswan.ed.jp', text2 = '退勤', write_row = 75,index = 28;
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var now_time = new Date();
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let now_time = new Date();
   ss.getSheetByName(SHEET_NAME).appendRow([now_time, decodedText,text2]);
   ss.getSheetByName("履歴").appendRow([now_time, decodedText,text2]);
 
@@ -32,13 +32,13 @@ function onScan(decodedText,text2, write_row,index) {
 
 ////////// スプレッドシートの指定行にデータを書き込む /////////////
 function onScan_rewrite(row, decodedText, now_name, write_row,index){
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var now_time = new Date();
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let now_time = new Date();
   ss.getSheetByName("履歴").appendRow([now_time, decodedText,"退勤上書き"]);
-  
+
   //ファイルをIDで指定、シートをシート名で指定
-  var sheet = ss.getSheetByName(SHEET_NAME);
-  
+  const sheet = ss.getSheetByName(SHEET_NAME);
+
   //データを書き;込む範囲を指定して、書き込みます
   console.log(now_time,row, decodedText, now_name, index);
   sheet.getRange(row + 1, 1).setValue(now_time);
@@ -55,8 +55,8 @@ function onScan_rewrite(row, decodedText, now_name, write_row,index){
 function GetSpreadsheet(sheet_name,row,col){
   //操作するシート名を指定して開く
   // row:指定した最終行　col:指定した最終列
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheet_name);
-  
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheet_name);
+
   //全データを取得するので、最終列と最終行を取得する
   if (!row){ row = sheet.getLastRow();}  //最終行取得
   if (!col){ col = sheet.getLastColumn();}  //最終列取得
@@ -71,11 +71,11 @@ function GetSpreadsheet(sheet_name,row,col){
 //GAS用関数　スプレッドシートのデータをシート名で読み込む 
 function GetSpreadsheet2(sheet_name){
   //操作するシート名を指定して開く
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheet_name);
-  
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheet_name);
+
   //全データを取得するので、最終列と最終行を取得する
-  var last_col = sheet.getLastColumn();  //最終列取得
-  var last_row = sheet.getLastRow();     //最終行取得
+  const last_col = sheet.getLastColumn();  //最終列取得
+  const last_row = sheet.getLastRow();     //最終行取得
   if (last_row < 1) {
     return [];
   }else{
@@ -107,9 +107,9 @@ function record_kozin(){
         console.log(meibo[i][0]+"実行");
         let start_day = new Date(temp_sheet.getRange(6,2).getValue());  //1日の日付を取得
         let end_day = new Date(start_day.getFullYear(), start_day.getMonth()+1, 0); //最終日を取得
-        var end_day_Date = end_day.getDate();   //最終日の日付を数値で取得
- 
-        for (var s_row=3; s_row<record_sheet_data.length; s_row++){
+        let end_day_Date = end_day.getDate();   //最終日の日付を数値で取得
+
+        for (let s_row=3; s_row<record_sheet_data.length; s_row++){
           if (record_sheet_data[s_row][0].getTime() == start_day.getTime()){
             break
           }
@@ -138,14 +138,14 @@ function record_kozin(){
 ///////////////// 集計月を再設定 ////////////////////
 function syukei_tuki(){
   record_kozin();
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var meibo_sheet = ss.getSheetByName('名簿');
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const meibo_sheet = ss.getSheetByName('名簿');
 
   let last_row = meibo_sheet.getLastRow();     //名簿シートの最終行取得
   let meibo = meibo_sheet.getRange(2, 2, last_row, 1).getValues(); //名簿一覧を取得
   let set_month = meibo_sheet.getRange("N2").getValue();
-  
-  for ( var i=0; i<meibo.length; i++){
+
+  for ( let i=0; i<meibo.length; i++){
     if (meibo[i][0] !=""){
       let temp_sheet = ss.getSheetByName(meibo[i][0]);
       if (temp_sheet !=null){
@@ -164,10 +164,10 @@ function record_time_clear(){
 }
 
 function WAREKI(year) {
-  var m = new Date(year, 4, 1); // e.g. "2022-01-01"
-  var dt = new Intl.DateTimeFormat('ja-JP-u-ca-japanese', {era: 'short'});
-  var [{ value: era }, { value: year }] = dt.formatToParts(m); // e.g. {type: 'era', value: '令和'},{type: 'year', value: '4'},{type: 'literal', value: '年'}
+  let m = new Date(year, 4, 1); // e.g. "2022-01-01"
+  let dt = new Intl.DateTimeFormat('ja-JP-u-ca-japanese', {era: 'short'});
+  [{ value: era }, { value: year }] = dt.formatToParts(m); // e.g. {type: 'era', value: '令和'},{type: 'year', value: '4'},{type: 'literal', value: '年'}
   if (year ==1){year = "元";}
-  var str = era +"　"+ year + "　年";
+  let str = era +"　"+ year + "　年";
   return str;
 }
