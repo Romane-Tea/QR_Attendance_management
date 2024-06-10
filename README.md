@@ -5,3 +5,8 @@ https://docs.google.com/spreadsheets/d/1onT9sWEq2uSgbccNB-eIAOvEzOUAD3IkJygNBMxn
 
 上記のスプレッドシートが見本となります。
 ご自身の環境にコピーしたのち、GASでデプロイしてお試しください。
+
+
+質問等は、
+https://romanetea.fc2.page/school_system_gas/
+からどうぞ。
